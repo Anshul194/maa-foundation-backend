@@ -1,13 +1,23 @@
 const express=require('express')
 const connectDb =require('./config/dbConnection')
+const  cloudinaryConfig = require('./config/cloudinarydb')
+const index = require('./routes/index');
+const fileUpload = require('express-fileupload')
+
 const dotenv = require('dotenv')
 const app=express();
 
 dotenv.config();
 app.use(express.json())
 
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/'
+}));
+
 const port=process.env.Port||5000;
 
+cloudinaryConfig()
 connectDb().then(()=>{
     app.listen(port,()=>{
         console.log(`App is running on ${port}`)
@@ -17,3 +27,6 @@ connectDb().then(()=>{
     console.error('Failed to start server:', err);
     process.exit(1); 
 })
+
+//routes
+app.use("/api",index);
