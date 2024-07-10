@@ -1,10 +1,10 @@
 const express=require('express')
 const connectDb =require('./config/dbConnection')
 const  cloudinaryConfig = require('./config/cloudinarydb')
-const index = require('./routes/index');
+const EventRoute = require('./Routes/EventRoute');
 const fileUpload = require('express-fileupload')
-
 const dotenv = require('dotenv')
+
 const app=express();
 
 dotenv.config();
@@ -28,5 +28,5 @@ connectDb().then(()=>{
     process.exit(1); 
 })
 
-//routes
-app.use("/api",index);
+//Routes
+app.use("/api/event",EventRoute);
