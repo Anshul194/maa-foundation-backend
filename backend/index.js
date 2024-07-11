@@ -1,7 +1,7 @@
 const express=require('express')
 const connectDb =require('./config/dbConnection')
 const  cloudinaryConfig = require('./config/cloudinarydb')
-const EventRoute = require('./Routes/EventRoute');
+const route = require('./Routes/index');
 const fileUpload = require('express-fileupload')
 const dotenv = require('dotenv')
 
@@ -29,4 +29,6 @@ connectDb().then(()=>{
 })
 
 //Routes
-app.use("/api/event",EventRoute);
+//app.use("/api/event",EventRoute);
+
+app.use("/api",route);

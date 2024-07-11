@@ -1,10 +1,10 @@
 const express = require('express');
-const router = express.Router();
+const EventRouter = express.Router();
 
 const { UploadEventDetails, getAllEvents, deleteEvent} = require('../Controller/EventController');
 
-router.post('/', UploadEventDetails);
-router.get('/', getAllEvents);
-router.delete('/', deleteEvent);
+EventRouter.post('/', UploadEventDetails);
+EventRouter.get('/', getAllEvents);
+EventRouter.delete('/', deleteEvent);
 
-module.exports = router;
+module.exports = EventRouter;
