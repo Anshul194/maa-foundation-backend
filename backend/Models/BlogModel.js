@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const blogDataSchema = new Schema({
     dataTitle:{
@@ -28,10 +29,10 @@ const blogSchema = new mongoose.Schema({
         type: String,    // Clodinary Url
         required:true
     },
-    date:{
-        type:String,
-        required:true
-    },
+    date: {
+        type: String,
+        default: moment().format('MMMM DD, YYYY')
+      },
     sampleData:{
         type:String,
         required : true
