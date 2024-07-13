@@ -3,9 +3,9 @@ const cloudinary = require("cloudinary").v2;
 const cloudinaryConfig = () => {
     try {
         cloudinary.config({
-            cloud_name: '',
-            api_key: '',
-            api_secret: ''
+            cloud_name: 'dgadm82x8',
+            api_key: '179225192485121',
+            api_secret: 'SQpMFCvPNy1AEzhJxYwhjaUwJMU'
         });
         console.log("Connected with Cloudinary");
     } catch (error) {
