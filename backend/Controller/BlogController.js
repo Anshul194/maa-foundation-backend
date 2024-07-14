@@ -54,10 +54,12 @@ exports.AddBlogDetails = async (req, res) => {
     try {
         const { blogId, dataTitle, dataDescription } = req.body;
 
+        // console.log(blogId,dataTitle,dataDescription)
+
         if (!blogId || !dataTitle || !dataDescription) {
             return res.status(400).json({
                 success: false,
-                message: "Please provide all required details",
+                message: "Please provide all required details to add data to blog",
             });
         }
 
