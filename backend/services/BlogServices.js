@@ -62,3 +62,14 @@ exports.AddBlogDetails = async (blogDetails) => {
         throw error;
     }
 }
+
+// Get all blogs
+exports.getAllBlogs = async () => {
+    try {
+        const events = await Blogs.find();
+        return events;
+    } catch (error) {
+        console.error("Error:", error);
+        throw error;
+    }
+};

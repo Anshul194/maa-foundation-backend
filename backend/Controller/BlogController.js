@@ -101,3 +101,21 @@ exports.AddBlogDetails = async (req, res) => {
         });
     }
 }
+
+exports.getAllBlogs = async (req, res) => {
+    try {
+        const blogs = await Blogs.find();
+
+        res.status(200).json({
+            success: true,
+            message: "All blogs retrieved successfully",
+            data: blogs,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: error.message,
+        });
+    }
+}
