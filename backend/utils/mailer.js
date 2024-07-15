@@ -49,28 +49,51 @@ const notifyAdmin = async (adminEmail, volunteerName,volunteerEmail) => {
     const subject = 'New Volunteer Added';
     const text = `
     Dear Admin,
-
+    
     We are pleased to inform you that a new volunteer named ${volunteerName} has joined our program. 
-
+    
     Here are some details about the new volunteer:
     - Name: ${volunteerName}
     - Joining Date: ${new Date().toLocaleDateString()}
     - Contact Email: ${volunteerEmail}
-
+    
     We believe that ${volunteerName} will be a valuable addition to our team and will contribute significantly to our cause.
-
+    
     Please make sure to reach out to the new volunteer and provide any necessary onboarding information.
-
+    
     Thank you for your continued dedication and support.
-
+    
     Best regards,
     Maa Foundation
     `;
-
+    
     await sendMail(adminEmail, subject, text);
 };
 
+const successFeedbackEMail = async (email) => {
+    const subject = 'Thank You for Your Feedback!';
+    const text = `
+    Dear User,
+
+    Thank you for taking the time to provide us with your valuable feedback. We have successfully received your input and greatly appreciate your effort in sharing your thoughts with us.
+
+    Your feedback is incredibly important to us as we strive to improve our services. We are grateful for your insights and suggestions, and we will carefully consider them as we continue to enhance our services.
+
+    Should you have any further comments, questions, or concerns, please do not hesitate to reach out to us. Your continued support means a lot to us, and we look forward to serving you better in the future.
+
+    Thank you once again for your valuable feedback!
+
+    Best regards,
+    Maa Foundation
+
+    `;
+
+    await sendMail(email, subject, text);
+};
+
+
 module.exports = {
     sendWelcomeEmail,
-    notifyAdmin
+    notifyAdmin,
+    successFeedbackEMail
 };
