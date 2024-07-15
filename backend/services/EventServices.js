@@ -34,11 +34,23 @@ exports.UploadEventDetails = async (EventDetailData) => {
 };
 
 // Get all events
-exports.getAllEvents = async () => {
+exports.getAllEvents = async (pageNumber) => {
     try {
-        const events = await Events.find();
+        const page = pageNumber;
+        const limit =  10;
+        const skip = (page - 1) * limit;
 
-        return events;
+        const events = await Events.find().skip(skip).limit(limit);
+        const total = await Events.countDocuments();
+
+        return({
+            total,
+            page,
+            limit,
+            totalPages: Math.ceil(total / limit),
+            data: events
+        });
+
     } catch (error) {
         console.error("Error:", error);
         throw error;
