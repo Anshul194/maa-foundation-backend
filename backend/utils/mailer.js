@@ -92,8 +92,29 @@ const successFeedbackEMail = async (email) => {
 };
 
 
+const sendNewEventNotification = async (eventName, eventDate, subscribers) => {
+    const subject = 'New Event Added: ' + eventName;
+    const text = `
+    Dear Subscriber,
+
+    We are excited to inform you about our new event "${eventName}" scheduled for ${eventDate}.
+
+    Please stay tuned for more details and join us in making this event a success!
+
+    Best regards,
+    Maa Foundation
+    `;
+    console.log(subscribers);
+
+    for (let subscriber of subscribers) {
+        console.log('gshghs',subscribers);
+        await sendMail(subscriber, subject, text);
+    }
+};
+
 module.exports = {
     sendWelcomeEmail,
     notifyAdmin,
-    successFeedbackEMail
+    successFeedbackEMail,
+    sendNewEventNotification
 };

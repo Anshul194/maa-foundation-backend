@@ -1,6 +1,9 @@
 const Events = require('../Models/EventModel');
 const cloudinary = require("cloudinary").v2;
 
+const  {getAllSubscribedEmails} = require('./SubscriptionService');
+const { sendNewEventNotification } = require('../utils/mailer');
+
 async function uploading(file, folder) {
     const options = {
         folder,
@@ -24,6 +27,11 @@ exports.UploadEventDetails = async (EventDetailData) => {
             imageUrl: uploadedImage.secure_url,
             cloudinary_name: uploadedImage.public_id,
         }).save();
+
+        const subscribedEmails = await getAllSubscribedEmails();
+        console.log(subscribedEmails);
+
+        await sendNewEventNotification(newRecord.title, newRecord.date, subscribedEmails);
 
         return NewEvent;
 
