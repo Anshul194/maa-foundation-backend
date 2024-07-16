@@ -21,6 +21,7 @@ exports.UploadEventDetails = async (EventDetailData) => {
         const newRecord = await new Events({
             title:NewEvent.title,
             subtitle:NewEvent.subtitle,
+            eventDate:NewEvent.eventDate,
             imageUrl: uploadedImage.secure_url,
             cloudinary_name: uploadedImage.public_id,
         }).save();
