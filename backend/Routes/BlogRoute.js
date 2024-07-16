@@ -12,22 +12,32 @@ const { CreateBlog, AddBlogDetails, getAllBlogs } = require('../Controller/BlogC
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
  *               title:
  *                 type: string
  *                 example: "My First Blog"
- *               content:
+ *               author:
  *                 type: string
- *                 example: "This is the content of my first blog"
+ *                 example: "Author Name"
+ *               sampleData:
+ *                 type: string
+ *                 example: "Some sample data"
+ *               coverImg:
+ *                 type: string
+ *                 format: binary
+ *               authorImg:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       201:
  *         description: Blog created successfully
  *       400:
  *         description: Bad request
  */
+
 BlogRouter.post("/newBlog", CreateBlog);
 
 /**
@@ -46,15 +56,19 @@ BlogRouter.post("/newBlog", CreateBlog);
  *               blogId:
  *                 type: string
  *                 example: "60d21b4667d0d8992e610c85"
- *               details:
+ *               dataTitle:
  *                 type: string
- *                 example: "Additional details for the blog"
+ *                 example: "Data Title"
+ *               dataDescription:
+ *                 type: string
+ *                 example: "Description of the data"
  *     responses:
  *       200:
  *         description: Blog details added successfully
  *       400:
  *         description: Bad request
  */
+
 BlogRouter.post("/addBlogDetails", AddBlogDetails);
 
 /**
