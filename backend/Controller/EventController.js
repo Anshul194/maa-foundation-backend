@@ -4,9 +4,9 @@ const EventService = require('../services/EventServices')
 exports.UploadEventDetails = async (req, res) => {
     try {
         const imgFile = req.files.imgFile;
-        const { title, subtitle } = req.body;
+        const { title, subtitle,eventDate } = req.body;
 
-        if ( !imgFile || !title || !subtitle) {
+        if ( !imgFile || !title || !subtitle || !eventDate) {
             return res.status(400).json({
                 success: false,
                 message: "Please provide all required details",
@@ -17,6 +17,7 @@ exports.UploadEventDetails = async (req, res) => {
             title,
             subtitle,
             imgFile,
+            eventDate,
         });
 
         const EventDetailData = await EventService.UploadEventDetails(newRecord);
