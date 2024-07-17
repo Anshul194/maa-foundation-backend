@@ -1,4 +1,4 @@
-const Blogs = require("../Models/BlogModel");
+const Blogs = require("../models/BlogModel");
 const cloudinary = require("cloudinary").v2;
 
 async function uploading(file, folder) {
