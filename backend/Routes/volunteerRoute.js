@@ -1,5 +1,5 @@
 const express = require('express');
-const volunteer = require('../controller/volunteerController');
+const {createVolunteer} = require('../controller/volunteerController');
 const volunteerRouter = express.Router();
 
 /**
@@ -89,6 +89,6 @@ const volunteerRouter = express.Router();
  *       400:
  *         description: Bad request
  */
-volunteerRouter.post('/create/volunteer', volunteer.createVolunteer);
+volunteerRouter.post('/create/volunteer', createVolunteer);
 
 module.exports = volunteerRouter;
