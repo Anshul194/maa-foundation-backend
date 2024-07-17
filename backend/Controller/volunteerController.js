@@ -1,7 +1,7 @@
 const volunteerService=require('../services/volunteerService')
 
 
-exports.createVolunteer=async(req,res)=>{
+createVolunteer=async(req,res)=>{
     try{
 const volunteer =await volunteerService.CreateVolunteers(req.body);
 res.status(201).json(volunteer);
@@ -12,3 +12,6 @@ res.status(201).json(volunteer);
     }
 }
 
+module.exports = {
+    createVolunteer
+};
