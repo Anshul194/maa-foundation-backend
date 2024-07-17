@@ -1,7 +1,7 @@
 const express = require('express');
 const EventRouter = express.Router();
 
-const { UploadEventDetails, getAllEvents, deleteEvent } = require('../Controller/EventController');
+const { UploadEventDetails, getAllEvents, deleteEvent } = require('../controller/EventController');
 
 /**
  * @swagger
