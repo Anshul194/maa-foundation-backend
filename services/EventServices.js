@@ -1,4 +1,4 @@
-const Events = require('../Models/EventModel');
+const Events = require('../models/EventModel');
 const cloudinary = require("cloudinary").v2;
 
 const  {getAllSubscribedEmails} = require('./SubscriptionService');
