@@ -2,7 +2,7 @@ const express = require("express");
 const {
   addFeedback,
   getAllFeedbacks,
-} = require("../controller/FeedbackController");
+} = require("../controller/feedbackController");
 const feedbackRoute = express.Router();
 
 /**
