@@ -76,7 +76,7 @@ exports.deleteEvent = async (DeleteEvent) => {
         const deleteTt = await Events.deleteOne({ title });
         return (deleteTt);
     } catch (error) {
-            console.error("Error: Fill all the fields", error);
-            throw error
+        console.error("Error: Fill all the fields", error);
+        throw error
     }
 };

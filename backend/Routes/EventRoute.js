@@ -51,7 +51,7 @@ const { UploadEventDetails, getAllEvents, deleteEvent } = require('../Controller
  *       400:
  *         description: Bad request
  */
-EventRouter.post('/', UploadEventDetails);
+EventRouter.post('/upload', UploadEventDetails);
 
 /**
  * @swagger
