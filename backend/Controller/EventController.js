@@ -1,40 +1,31 @@
-const Events = require('../Models/EventModel');
-const cloudinary = require("cloudinary").v2;
-
-async function uploading(file, folder) {
-    const options = {
-        folder,
-    };
-
-    return await cloudinary.uploader.upload(file.tempFilePath, options);
-}
+const EventService = require('../services/EventServices')
 
 // Create a new event
 exports.UploadEventDetails = async (req, res) => {
     try {
         const imgFile = req.files.imgFile;
-        const { title, subtitle } = req.body;
+        const { title, subtitle,eventDate } = req.body;
 
-        if ( !imgFile || !title || !subtitle) {
+        if ( !imgFile || !title || !subtitle || !eventDate) {
             return res.status(400).json({
                 success: false,
                 message: "Please provide all required details",
             });
         }
 
-        const uploadedImage = await uploading(imgFile, 'Foundation');
-
-        const newRecord = await new Events({
+        const newRecord = ({
             title,
             subtitle,
-            imageUrl: uploadedImage.secure_url,
-            cloudinary_name: uploadedImage.public_id,
-        }).save();
+            imgFile,
+            eventDate,
+        });
+
+        const EventDetailData = await EventService.UploadEventDetails(newRecord);
 
         return res.status(200).json({
             success: true,
             msg: "Event uploaded successfully",
-            data: newRecord,
+            data: EventDetailData,
         });
 
     } catch (error) {
@@ -46,7 +37,8 @@ exports.UploadEventDetails = async (req, res) => {
 // Get all events
 exports.getAllEvents = async (req, res) => {
     try {
-        const events = await Events.find();
+        const page = parseInt(req.query.page) || 1;
+        const events = await EventService.getAllEvents(page);
         res.status(200).json(events);
     } catch (error) {
         console.error("Error:", error);
@@ -65,21 +57,11 @@ exports.deleteEvent = async (req, res) => {
                 msg: "Fill all the fields",
             });
         }
-        const findAndDestroy = await Events.findOne({ title });
-        const del = await cloudinary.uploader.destroy(
-            findAndDestroy.cloudinary_name
-        );
-        if (!del) {
-            return res.status(400).json({
-                success: false,
-                msg: "not deleted from cloud",
-            });
-        }
-        const deleteTt = await Events.deleteOne({ title });
+        const DeleteEvent = await EventService.deleteEvent(title)
         return res.status(200).json({
             success: true,
             msg: "Deleted successfully",
-            data: deleteTt,
+            data: DeleteEvent,
         });
     } catch (error) {
         return res.status(400).json({
