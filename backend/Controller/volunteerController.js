@@ -8,7 +8,6 @@ res.status(201).json(volunteer);
 }
     catch(error){
         res.status(500).json({ message: error.message });
-
     }
 }
 
