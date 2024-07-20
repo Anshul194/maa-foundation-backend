@@ -68,6 +68,10 @@ EventRouter.get('/events', getAllEvents);
  *       400:
  *         description: Bad request
  */
+<<<<<<< Updated upstream
 EventRouter.delete('/events', deleteEvent);
+=======
+EventRouter.delete('/events/:id', deleteEvent);
+>>>>>>> Stashed changes
 
 module.exports = EventRouter;
