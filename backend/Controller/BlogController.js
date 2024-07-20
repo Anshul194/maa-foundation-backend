@@ -1,4 +1,4 @@
-const Blogs = require("../Models/BlogModel");
+const Blogs = require("../models/BlogModel");
 const cloudinary = require("cloudinary").v2;
 
 async function uploading(file, folder) {
@@ -16,6 +16,7 @@ exports.CreateBlog = async (req, res) => {
         const { title, author, sampleData } = req.body;
 
         if (!coverImg || !authorImg || !title || !author || !sampleData) {
+            console.log(coverImg)
             return res.status(400).json({
                 success: false,
                 message: "Please provide all required details",

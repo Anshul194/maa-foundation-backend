@@ -92,8 +92,45 @@ const successFeedbackEMail = async (email) => {
 };
 
 
+
+const sendSubscriptionConfirmation = async (email) => {
+    const subject = 'Subscription Confirmation';
+    const text = `
+      Dear Subscriber,
+  
+      Thank you for subscribing to our service. We are excited to have you with us!
+      Best regards,
+      Maa Foundation
+    `;
+  
+    await sendMail(email, subject, text);
+  };
+
+
+const sendNewEventNotification = async (eventName, eventDate, subscribers) => {
+    const subject = 'New Event Added: ' + eventName;
+    const text = `
+    Dear Subscriber,
+
+    We are excited to inform you about our new event "${eventName}" scheduled for ${eventDate}.
+
+    Please stay tuned for more details and join us in making this event a success!
+
+    Best regards,
+    Maa Foundation
+    `;
+    console.log(subscribers);
+
+    for (let subscriber of subscribers) {
+        console.log('gshghs',subscribers);
+        await sendMail(subscriber, subject, text);
+    }
+};
+
 module.exports = {
     sendWelcomeEmail,
     notifyAdmin,
-    successFeedbackEMail
+    successFeedbackEMail,
+    sendNewEventNotification,
+    sendSubscriptionConfirmation
 };

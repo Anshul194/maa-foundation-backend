@@ -1,4 +1,4 @@
-const Feedback = require('../Models/FeedbackModel')
+const Feedback = require('../models/FeedbackModel')
 const { successFeedbackEMail } = require('../utils/mailer');
 
 exports.createFeedback = async (feedbackData) => {

@@ -1,50 +1,36 @@
 const express = require('express');
 const EventRouter = express.Router();
 
-const { UploadEventDetails, getAllEvents, deleteEvent } = require('../Controller/EventController');
-
-/**
- * @swagger
- * components:
- *   schemas:
- *     Event:
- *       type: object
- *       required:
- *         - title
- *         - subtitle
- *       properties:
- *         title:
- *           type: string
- *           description: Title of the event
- *         subtitle:
- *           type: string
- *           description: Subtitle of the event
- *         imageUrl:
- *           type: string
- *           description: Image URL of the event
- *       example:
- *         title: "Event Title"
- *         subtitle: "Event Subtitle"
- *         imageUrl: "http://example.com/image.jpg"
- *         cloudinary_name: "event_image"
- */
+const { UploadEventDetails, getAllEvents, deleteEvent } = require('../controller/EventController');
 
 /**
  * @swagger
  * /events:
  *   post:
  *     summary: Upload event details
- *     description: Upload details of an event.
- *     tags: [Events]
+ *     description: Upload details of an event including an image file.
+ *     tags:
+ *       - Events
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/Event'
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: Title of the event
+ *               subtitle:
+ *                 type: string
+ *                 description: Subtitle of the event
+ *               imgFile:
+ *                 type: string
+ *                 format: binary
+ *                 description: Image file to upload for the event
  *     responses:
  *       200:
- *         description: Event uploaded successfully
+ *         description: Event details uploaded successfully
  *       400:
  *         description: Bad request
  */

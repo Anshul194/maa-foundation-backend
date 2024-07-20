@@ -1,4 +1,4 @@
-const Feedback = require("../Models/FeedbackModel");
+const Feedback = require("../models/FeedbackModel");
 const { createFeedback } = require("../services/feedbackService");
 
 

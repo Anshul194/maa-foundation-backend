@@ -31,7 +31,7 @@ const blogSchema = new mongoose.Schema({
     },
     date: {
         type: String,
-        default: moment().format('MMMM DD, YYYY')
+        // default: moment().format('MMMM DD, YYYY')
       },
     sampleData:{
         type:String,

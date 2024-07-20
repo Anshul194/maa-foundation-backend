@@ -1,12 +1,12 @@
-const EventService = require('../services/EventServices')
+const GalleryService = require('../services/GalleryServices')
 
 // Create a new event
-exports.UploadEventDetails = async (req, res) => {
+exports.UploadGalleryDetails = async (req, res) => {
     try {
         const imgFile = req.files.imgFile;
-        const { title, subtitle,eventDate } = req.body;
+        const { title, subtitle } = req.body;
 
-        if ( !imgFile || !title || !subtitle || !eventDate) {
+        if ( !imgFile || !title || !subtitle) {
             return res.status(400).json({
                 success: false,
                 message: "Please provide all required details",
@@ -17,15 +17,14 @@ exports.UploadEventDetails = async (req, res) => {
             title,
             subtitle,
             imgFile,
-            eventDate,
         });
 
-        const EventDetailData = await EventService.UploadEventDetails(newRecord);
+        const GalleryDetailData = await GalleryService.UploadGalleryDetails(newRecord);
 
         return res.status(200).json({
             success: true,
             msg: "Event uploaded successfully",
-            data: EventDetailData,
+            data: GalleryDetailData,
         });
 
     } catch (error) {
@@ -35,10 +34,10 @@ exports.UploadEventDetails = async (req, res) => {
 };
 
 // Get all events
-exports.getAllEvents = async (req, res) => {
+exports.getAllGallery = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
-        const events = await EventService.getAllEvents(page);
+        const events = await GalleryService.getAllGallery(page);
         res.status(200).json(events);
     } catch (error) {
         console.error("Error:", error);
@@ -48,37 +47,26 @@ exports.getAllEvents = async (req, res) => {
 
 
 // Delete Event
-exports.deleteEvent = async (req, res) => {
+exports.deleteGallery = async (req, res) => {
     try {
-        const { id } = req.params;
-
-        if (!id) {
+        const { title } = req.query;
+        if (!title) {
             return res.status(400).json({
                 success: false,
-                msg: "Event ID is required",
+                msg: "Fill all the fields",
             });
         }
-
-        const deletedEvent = await EventService.deleteEvent(id);
-
-        if (!deletedEvent) {
-            return res.status(404).json({
-                success: false,
-                msg: "Event not found",
-            });
-        }
-
+        const DeleteEvent = await GalleryService.deleteGallery(title)
         return res.status(200).json({
             success: true,
-            msg: "Event deleted successfully",
-            data: deletedEvent,
+            msg: "Deleted successfully",
+            data: DeleteEvent,
         });
     } catch (error) {
-        console.error("Error deleting event:", error);
-        return res.status(500).json({
+        return res.status(400).json({
             success: false,
-            msg: "Server error",
-            error: error.message,
+            msg: "Fill all the fields",
+            error: error,
         });
     }
 };
