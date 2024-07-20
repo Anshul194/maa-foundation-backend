@@ -1,4 +1,4 @@
-const Gallery = require('../Models/GalleryModel');
+const Gallery = require('../models/GalleryModel');
 const cloudinary = require("cloudinary").v2;
 
 async function uploading(file, folder) {

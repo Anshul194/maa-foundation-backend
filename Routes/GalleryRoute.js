@@ -1,7 +1,7 @@
 const express = require('express');
 const GalleryRouter = express.Router();
 
-const { UploadGalleryDetails, getAllGallery, deleteGallery } = require('../Controller/GalleryController');
+const { UploadGalleryDetails, getAllGallery, deleteGallery } = require('../controller/GalleryController');
 
 /**
  * @swagger
