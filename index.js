@@ -6,6 +6,7 @@ const fileUpload = require('express-fileupload')
 const dotenv = require('dotenv')
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpecs = require('./config/swaggerOptions');
+const cors = require('cors');
 
 
 const app=express();
@@ -20,6 +21,26 @@ app.use(fileUpload({
 }));
 
 const port=process.env.Port||5000;
+
+
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://localhost:3000',
+    'https://maa-foundation.vercel.app',
+    'http://maa-foundation.vercel.app',
+];
+
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
+}));
+
 
 cloudinaryConfig()
 connectDb().then(()=>{
