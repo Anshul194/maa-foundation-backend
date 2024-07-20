@@ -6,12 +6,15 @@ const fileUpload = require('express-fileupload')
 const dotenv = require('dotenv')
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpecs = require('./config/swaggerOptions');
+const cors=require("cors");
 
 
 const app=express();
 
 dotenv.config();
 app.use(express.json())
+
+app.use(cors());
 
 app.use(fileUpload({
     useTempFiles: true,
