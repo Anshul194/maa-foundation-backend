@@ -1,8 +1,5 @@
-const Events = require('../models/EventModel');
+const Gallery = require('../Models/GalleryModel');
 const cloudinary = require("cloudinary").v2;
-
-const  {getAllSubscribedEmails} = require('./SubscriptionService');
-const { sendNewEventNotification } = require('../utils/mailer');
 
 async function uploading(file, folder) {
     const options = {
@@ -13,27 +10,22 @@ async function uploading(file, folder) {
 }
 
 // Create a new event
-exports.UploadEventDetails = async (EventDetailData) => {
+exports.UploadGalleryDetails = async (GalleryDetailData) => {
     try {
 
 
-        const NewEvent = (EventDetailData);
+        const NewGallery = (GalleryDetailData);
 
-        const uploadedImage = await uploading(NewEvent.imgFile, 'Foundation');
+        const uploadedImage = await uploading(NewGallery.imgFile, 'Foundation');
 
-        const newRecord = await new Events({
-            title:NewEvent.title,
-            subtitle:NewEvent.subtitle,
+        const newRecord = await new Gallery({
+            title:NewGallery.title,
+            subtitle:NewGallery.subtitle,
             imageUrl: uploadedImage.secure_url,
             cloudinary_name: uploadedImage.public_id,
         }).save();
 
-        const subscribedEmails = await getAllSubscribedEmails();
-        console.log(subscribedEmails);
-
-        await sendNewEventNotification(newRecord.title, newRecord.date, subscribedEmails);
-
-        return NewEvent;
+        return NewGallery;
 
     } catch (error) {
         console.error("Error:", error);
@@ -42,21 +34,21 @@ exports.UploadEventDetails = async (EventDetailData) => {
 };
 
 // Get all events
-exports.getAllEvents = async (pageNumber) => {
+exports.getAllGallery = async (pageNumber) => {
     try {
         const page = pageNumber;
         const limit =  10;
         const skip = (page - 1) * limit;
 
-        const events = await Events.find().skip(skip).limit(limit);
-        const total = await Events.countDocuments();
+        const gallery = await Gallery.find().skip(skip).limit(limit);
+        const total = await Gallery.countDocuments();
 
         return({
             total,
             page,
             limit,
             totalPages: Math.ceil(total / limit),
-            data: events
+            data: gallery
         });
 
     } catch (error) {
@@ -67,11 +59,11 @@ exports.getAllEvents = async (pageNumber) => {
 
 
 // Delete Event
-exports.deleteEvent = async (DeleteEvent) => {
+exports.deleteGallery = async (DeleteGallery) => {
     try {
 
-        const title = DeleteEvent;
-        const findAndDestroy = await Events.findOne({ title });
+        const title = DeleteGallery;
+        const findAndDestroy = await Gallery.findOne({ title });
         const del = await cloudinary.uploader.destroy(
             findAndDestroy.cloudinary_name
         );
@@ -81,7 +73,7 @@ exports.deleteEvent = async (DeleteEvent) => {
                 msg: "not deleted from cloud",
             });
         }
-        const deleteTt = await Events.deleteOne({ title });
+        const deleteTt = await Gallery.deleteOne({ title });
         return (deleteTt);
     } catch (error) {
         console.error("Error: Fill all the fields", error);

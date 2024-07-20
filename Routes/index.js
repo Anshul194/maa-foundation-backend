@@ -3,9 +3,11 @@ const router = express.Router();
 const VolunteerRoute=require('./volunteerRoute')
 const EventRouter=require('./EventRoute')
 const BlogRouter=require('./BlogRoute')
-const SubscribeRouter=require('../Routes/SubscriptionRoute')
-
-router.use('/',BlogRouter)
+const GalleryRouter = require('./GalleryRoute');
+router.use('/',VolunteerRoute);
+router.use('/event',EventRouter);
+router.use('/gallery',GalleryRouter);
+router.use('/blog',BlogRouter);
 const feedbackRoute = require('./feedbackRoute');
 
 router.use('/',VolunteerRoute);

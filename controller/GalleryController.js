@@ -1,35 +1,32 @@
-const EventService = require('../services/EventServices')
+const GalleryService = require('../services/GalleryServices')
 
 // Create a new event
-exports.UploadEventDetails = async (req, res) => {
+exports.UploadGalleryDetails = async (req, res) => {
     try {
         const imgFile = req.files.imgFile;
         const { title, subtitle } = req.body;
-        
+
         if ( !imgFile || !title || !subtitle) {
             return res.status(400).json({
                 success: false,
                 message: "Please provide all required details",
             });
         }
-        
+
         const newRecord = ({
             title,
             subtitle,
             imgFile,
         });
-        
-        console.log(newRecord)
 
-        
-        const EventDetailData = await EventService.UploadEventDetails(newRecord);
-        
+        const GalleryDetailData = await GalleryService.UploadGalleryDetails(newRecord);
+
         return res.status(200).json({
             success: true,
             msg: "Event uploaded successfully",
-            data: EventDetailData,
+            data: GalleryDetailData,
         });
-        
+
     } catch (error) {
         console.error("Error:", error);
         res.status(500).json({ error: 'Error creating event' });
@@ -37,10 +34,10 @@ exports.UploadEventDetails = async (req, res) => {
 };
 
 // Get all events
-exports.getAllEvents = async (req, res) => {
+exports.getAllGallery = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 2;
-        const events = await EventService.getAllEvents(page);
+        const page = parseInt(req.query.page) || 1;
+        const events = await GalleryService.getAllGallery(page);
         res.status(200).json(events);
     } catch (error) {
         console.error("Error:", error);
@@ -50,7 +47,7 @@ exports.getAllEvents = async (req, res) => {
 
 
 // Delete Event
-exports.deleteEvent = async (req, res) => {
+exports.deleteGallery = async (req, res) => {
     try {
         const { title } = req.query;
         if (!title) {
@@ -59,7 +56,7 @@ exports.deleteEvent = async (req, res) => {
                 msg: "Fill all the fields",
             });
         }
-        const DeleteEvent = await EventService.deleteEvent(title)
+        const DeleteEvent = await GalleryService.deleteGallery(title)
         return res.status(200).json({
             success: true,
             msg: "Deleted successfully",
