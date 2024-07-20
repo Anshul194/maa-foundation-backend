@@ -39,7 +39,7 @@ exports.UploadEventDetails = async (req, res) => {
 // Get all events
 exports.getAllEvents = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 2;
+        const page = parseInt(req.query.page) || 1;
         const events = await EventService.getAllEvents(page);
         res.status(200).json(events);
     } catch (error) {
