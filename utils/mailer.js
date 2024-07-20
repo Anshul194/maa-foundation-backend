@@ -92,6 +92,21 @@ const successFeedbackEMail = async (email) => {
 };
 
 
+
+const sendSubscriptionConfirmation = async (email) => {
+    const subject = 'Subscription Confirmation';
+    const text = `
+      Dear Subscriber,
+  
+      Thank you for subscribing to our service. We are excited to have you with us!
+      Best regards,
+      Maa Foundation
+    `;
+  
+    await sendMail(email, subject, text);
+  };
+
+
 const sendNewEventNotification = async (eventName, eventDate, subscribers) => {
     const subject = 'New Event Added: ' + eventName;
     const text = `
@@ -116,5 +131,6 @@ module.exports = {
     sendWelcomeEmail,
     notifyAdmin,
     successFeedbackEMail,
-    sendNewEventNotification
+    sendNewEventNotification,
+    sendSubscriptionConfirmation
 };

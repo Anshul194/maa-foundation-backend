@@ -1,5 +1,5 @@
 const Subscription = require('../models/Subscription');
-
+const {sendSubscriptionConfirmation}=require('../utils/mailer')
 const subscribeUser = async (email) => {
   if (!email || !email.includes('@')) {
     throw new Error('Invalid email address');
@@ -10,7 +10,9 @@ const subscribeUser = async (email) => {
     throw new Error('Email already subscribed');
   }
 
+
   const newSubscription = new Subscription({ email });
+   await sendSubscriptionConfirmation(email);
   await newSubscription.save();
   return newSubscription;
 };

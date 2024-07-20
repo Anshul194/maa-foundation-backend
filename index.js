@@ -28,6 +28,8 @@ const allowedOrigins = [
     'https://localhost:3000',
     'https://maa-foundation.vercel.app',
     'http://maa-foundation.vercel.app',
+    'http://localhost:5001',
+    'https://maa-foundation-backend-6.onrender.com',
 ];
 
 app.use(cors({
