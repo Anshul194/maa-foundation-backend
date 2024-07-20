@@ -4,7 +4,7 @@ const VolunteerRoute=require('./volunteerRoute')
 const EventRouter=require('./EventRoute')
 const BlogRouter=require('./BlogRoute')
 const GalleryRouter = require('./GalleryRoute');
-
+const SubscribeRouter=require('./SubscriptionRoute')
 const feedbackRoute = require('./feedbackRoute');
 router.use('/gallery',GalleryRouter);
 router.use('/blog',BlogRouter);
