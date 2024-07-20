@@ -1,8 +1,5 @@
-const Events = require('../models/EventModel');
+const Events = require('../Models/EventModel');
 const cloudinary = require("cloudinary").v2;
-
-const  {getAllSubscribedEmails} = require('./SubscriptionService');
-const { sendNewEventNotification } = require('../utils/mailer');
 
 async function uploading(file, folder) {
     const options = {
@@ -24,14 +21,10 @@ exports.UploadEventDetails = async (EventDetailData) => {
         const newRecord = await new Events({
             title:NewEvent.title,
             subtitle:NewEvent.subtitle,
+            eventDate:NewEvent.eventDate,
             imageUrl: uploadedImage.secure_url,
             cloudinary_name: uploadedImage.public_id,
         }).save();
-
-        const subscribedEmails = await getAllSubscribedEmails();
-        console.log(subscribedEmails);
-
-        await sendNewEventNotification(newRecord.title, newRecord.date, subscribedEmails);
 
         return NewEvent;
 
@@ -67,24 +60,28 @@ exports.getAllEvents = async (pageNumber) => {
 
 
 // Delete Event
-exports.deleteEvent = async (DeleteEvent) => {
+exports.deleteEvent = async (id) => {
     try {
-
-        const title = DeleteEvent;
-        const findAndDestroy = await Events.findOne({ title });
-        const del = await cloudinary.uploader.destroy(
-            findAndDestroy.cloudinary_name
-        );
-        if (!del) {
-            return ({
-                success: false,
-                msg: "not deleted from cloud",
-            });
+        const event = await Events.findById(id);
+        if (!event) {
+            console.error('Event not found');
         }
-        const deleteTt = await Events.deleteOne({ title });
-        return (deleteTt);
+
+        // Delete the image from Cloudinary
+        const del = await cloudinary.uploader.destroy(event.cloudinary_name);
+        if (!del) {
+            console.error('Failed to delete image from Cloudinary');
+        }
+
+        // Delete the event from MongoDB
+        const deletedEvent = await Events.findByIdAndDelete(id);
+        if (!deletedEvent) {
+            console.error('Failed to delete event from database');
+        }
+
+        return deletedEvent;
     } catch (error) {
-        console.error("Error: Fill all the fields", error);
-        throw error
+        console.error("Error in deleteEvent service:", error);
+        throw error;
     }
 };
