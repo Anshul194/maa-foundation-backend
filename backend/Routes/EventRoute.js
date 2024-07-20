@@ -22,9 +22,6 @@ const { UploadEventDetails, getAllEvents, deleteEvent } = require('../Controller
  *         imageUrl:
  *           type: string
  *           description: Image URL of the event
- *         cloudinary_name:
- *           type: string
- *           description: Cloudinary name for the image
  *       example:
  *         title: "Event Title"
  *         subtitle: "Event Subtitle"
@@ -85,6 +82,6 @@ EventRouter.get('/', getAllEvents);
  *       400:
  *         description: Bad request
  */
-EventRouter.delete('/', deleteEvent);
+EventRouter.delete('/:id', deleteEvent);
 
 module.exports = EventRouter;

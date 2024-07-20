@@ -50,24 +50,35 @@ exports.getAllEvents = async (req, res) => {
 // Delete Event
 exports.deleteEvent = async (req, res) => {
     try {
-        const { title } = req.query;
-        if (!title) {
+        const { id } = req.params;
+
+        if (!id) {
             return res.status(400).json({
                 success: false,
-                msg: "Fill all the fields",
+                msg: "Event ID is required",
             });
         }
-        const DeleteEvent = await EventService.deleteEvent(title)
+
+        const deletedEvent = await EventService.deleteEvent(id);
+
+        if (!deletedEvent) {
+            return res.status(404).json({
+                success: false,
+                msg: "Event not found",
+            });
+        }
+
         return res.status(200).json({
             success: true,
-            msg: "Deleted successfully",
-            data: DeleteEvent,
+            msg: "Event deleted successfully",
+            data: deletedEvent,
         });
     } catch (error) {
-        return res.status(400).json({
+        console.error("Error deleting event:", error);
+        return res.status(500).json({
             success: false,
-            msg: "Fill all the fields",
-            error: error,
+            msg: "Server error",
+            error: error.message,
         });
     }
 };
