@@ -73,3 +73,24 @@ exports.getAllBlogs = async () => {
         throw error;
     }
 };
+
+exports.deleteBlog = async (blogId) => {
+    try {
+        const blog = await Blogs.findById(blogId);
+
+        if (!blog) {
+            throw new Error("Blog not found");
+        }
+
+        await Blogs.findByIdAndDelete(blogId);
+
+        return {
+            success: true,
+            message: "Blog deleted successfully",
+        };
+
+    } catch (error) {
+        console.error("Error:", error);
+        throw error;
+    }
+};
