@@ -1,7 +1,7 @@
 // routes/BlogRouter.js
 const express = require('express');
 const BlogRouter = express.Router();
-const { CreateBlog, AddBlogDetails, getAllBlogs } = require('../Controller/BlogController');
+const { CreateBlog, AddBlogDetails, getAllBlogs, deleteBlog } = require('../Controller/BlogController');
 
 /**
  * @swagger
@@ -100,5 +100,30 @@ BlogRouter.post("/addBlogDetails", AddBlogDetails);
  *         description: Server error
  */
 BlogRouter.get("/getAllBlogs", getAllBlogs);
+
+/**
+ * @swagger
+ * /deleteBlog/{blogId}:
+ *   delete:
+ *     summary: Delete a blog
+ *     tags: [Blogs]
+ *     parameters:
+ *       - in: path
+ *         name: blogId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the blog to delete
+ *     responses:
+ *       200:
+ *         description: Blog deleted successfully
+ *       400:
+ *         description: Bad request
+ *       404:
+ *         description: Blog not found
+ *       500:
+ *         description: Server error
+ */
+BlogRouter.delete("/deleteBlog/:blogId", deleteBlog);
 
 module.exports = BlogRouter;

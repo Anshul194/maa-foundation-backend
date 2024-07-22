@@ -120,3 +120,38 @@ exports.getAllBlogs = async (req, res) => {
         });
     }
 }
+
+exports.deleteBlog = async (req, res) => {
+    try {
+        const { blogId } = req.params;
+
+        if (!blogId) {
+            return res.status(400).json({
+                success: false,
+                message: "Please provide the blog ID",
+            });
+        }
+
+        const blog = await Blogs.findById(blogId);
+
+        if (!blog) {
+            return res.status(404).json({
+                success: false,
+                message: "Blog not found",
+            });
+        }
+
+        await Blogs.findByIdAndDelete(blogId);
+
+        res.status(200).json({
+            success: true,
+            message: "Blog deleted successfully",
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: error.message,
+        });
+    }
+}
