@@ -1,40 +1,16 @@
-const Blogs = require("../Models/BlogModel");
-const cloudinary = require("cloudinary").v2;
-
-async function uploading(file, folder) {
-    const options = {
-        folder,
-    };
-
-    return await cloudinary.uploader.upload(file.tempFilePath, options);
-}
+const blogService = require("../services/BlogServices");
 
 exports.CreateBlog = async (req, res) => {
     try {
-        const coverImg = req.files.coverImg;
-        const authorImg = req.files.authorImg;
-        const { title, author, sampleData } = req.body;
+        const blogData = {
+            coverImg: req.files.coverImg,
+            authorImg: req.files.authorImg,
+            title: req.body.title,
+            author: req.body.author,
+            sampleData: req.body.sampleData,
+        };
 
-        if (!coverImg || !authorImg || !title || !author || !sampleData) {
-            console.log(coverImg)
-            return res.status(400).json({
-                success: false,
-                message: "Please provide all required details",
-            });
-        }
-
-        const coverImgUploaded = await uploading(coverImg, 'Foundation');
-        const authorImgUploaded = await uploading(authorImg, 'Foundation');
-
-        const newBlog = new Blogs({
-            title,
-            author,
-            sampleData,
-            coverImg: coverImgUploaded.secure_url,
-            authorImg: authorImgUploaded.secure_url,
-        });
-
-        await newBlog.save();
+        const newBlog = await blogService.CreateBlog(blogData);
 
         res.status(201).json({
             success: true,
@@ -49,51 +25,24 @@ exports.CreateBlog = async (req, res) => {
             error: error.message,
         });
     }
-}
+};
 
 exports.AddBlogDetails = async (req, res) => {
     try {
-        const { blogId, dataTitle, dataDescription } = req.body;
+        const blogDetails = {
+            blogId: req.body.blogId,
+            dataTitle: req.body.dataTitle,
+            dataDescription: req.body.dataDescription,
+        };
 
-        // console.log(blogId,dataTitle,dataDescription)
-
-        if (!blogId || !dataTitle || !dataDescription) {
-            return res.status(400).json({
-                success: false,
-                message: "Please provide all required details to add data to blog",
-            });
-        }
-
-        const blog = await Blogs.findById(blogId);
-
-        if (!blog) {
-            return res.status(404).json({
-                success: false,
-                message: "Blog not found",
-            });
-        }
-
-        const updatedBlog = await Blogs.findByIdAndUpdate(
-            blogId,
-            {
-                $push: {
-                    data: {
-                        dataTitle,
-                        dataDescription
-                    }
-                }
-            },
-            {
-                new: true,
-                runValidators: true
-            }
-        );
+        const updatedBlog = await blogService.AddBlogDetails(blogDetails);
 
         res.status(200).json({
             success: true,
             message: "Blog details added successfully",
             data: updatedBlog,
         });
+
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -101,17 +50,22 @@ exports.AddBlogDetails = async (req, res) => {
             error: error.message,
         });
     }
-}
+};
 
 exports.getAllBlogs = async (req, res) => {
     try {
-        const blogs = await Blogs.find();
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+
+        const { blogs, pagination } = await blogService.getAllBlogs(page, limit);
 
         res.status(200).json({
             success: true,
             message: "All blogs retrieved successfully",
             data: blogs,
+            pagination,
         });
+
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -119,34 +73,16 @@ exports.getAllBlogs = async (req, res) => {
             error: error.message,
         });
     }
-}
+};
 
 exports.deleteBlog = async (req, res) => {
     try {
-        const { blogId } = req.params;
+        const blogId = req.params.blogId;
 
-        if (!blogId) {
-            return res.status(400).json({
-                success: false,
-                message: "Please provide the blog ID",
-            });
-        }
+        const result = await blogService.deleteBlog(blogId);
 
-        const blog = await Blogs.findById(blogId);
+        res.status(200).json(result);
 
-        if (!blog) {
-            return res.status(404).json({
-                success: false,
-                message: "Blog not found",
-            });
-        }
-
-        await Blogs.findByIdAndDelete(blogId);
-
-        res.status(200).json({
-            success: true,
-            message: "Blog deleted successfully",
-        });
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -154,4 +90,4 @@ exports.deleteBlog = async (req, res) => {
             error: error.message,
         });
     }
-}
+};

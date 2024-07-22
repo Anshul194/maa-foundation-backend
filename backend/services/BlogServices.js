@@ -11,20 +11,21 @@ async function uploading(file, folder) {
 
 exports.CreateBlog = async (blogData) => {
     try {
-        const Blog = (blogData)
+        const { coverImg, authorImg, title, author, sampleData } = blogData;
 
-        const coverImgUploaded = await uploading(Blog.coverImg, 'Foundation');
-        const authorImgUploaded = await uploading(Blog.authorImg, 'Foundation');
+        const coverImgUploaded = await uploading(coverImg, 'Foundation');
+        const authorImgUploaded = await uploading(authorImg, 'Foundation');
 
-        const newBlog = await new Blogs({
-            title:Blog.title,
-            author:Blog.author,
-            sampleData:Blog.sampleData,
+        const newBlog = new Blogs({
+            title,
+            author,
+            sampleData,
             coverImg: coverImgUploaded.secure_url,
             authorImg: authorImgUploaded.secure_url,
-            cloudinary_name: uploadedImage.public_id,
-        }).save();
+            cloudinary_name: coverImgUploaded.public_id,
+        });
 
+        await newBlog.save();
 
         return newBlog;
 
@@ -36,11 +37,16 @@ exports.CreateBlog = async (blogData) => {
 
 exports.AddBlogDetails = async (blogDetails) => {
     try {
+        const { blogId, dataTitle, dataDescription } = blogDetails;
 
-        const blog = await Blogs.findById(blogDetails._id);
+        const blog = await Blogs.findById(blogId);
+
+        if (!blog) {
+            throw new Error("Blog not found");
+        }
 
         const updatedBlog = await Blogs.findByIdAndUpdate(
-            blogDetails._id,
+            blogId,
             {
                 $push: {
                     data: {
@@ -55,7 +61,7 @@ exports.AddBlogDetails = async (blogDetails) => {
             }
         );
 
-        return updatedBlog
+        return updatedBlog;
 
     } catch (error) {
         console.error("Error:", error);
@@ -63,11 +69,22 @@ exports.AddBlogDetails = async (blogDetails) => {
     }
 }
 
-// Get all blogs
-exports.getAllBlogs = async () => {
+exports.getAllBlogs = async (page = 1, limit = 10) => {
     try {
-        const events = await Blogs.find();
-        return events;
+        const skip = (page - 1) * limit;
+
+        const blogs = await Blogs.find().skip(skip).limit(limit);
+        const total = await Blogs.countDocuments();
+
+        return {
+            blogs,
+            pagination: {
+                total,
+                page,
+                pages: Math.ceil(total / limit),
+                limit,
+            },
+        };
     } catch (error) {
         console.error("Error:", error);
         throw error;
