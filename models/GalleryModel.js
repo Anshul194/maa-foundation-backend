@@ -14,6 +14,11 @@ const Gallery = new mongoose.Schema({
     },
     cloudinary_name :{
         type : String,
+    },
+    orientation: {  // Add the orientation field
+        type: String,
+        enum: ['landscape', 'portrait'],
+        required: true
     }
 })
 

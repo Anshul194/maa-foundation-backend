@@ -6,18 +6,18 @@ exports.UploadGalleryDetails = async (req, res) => {
         const imgFile = req.files.imgFile;
         const { title, subtitle } = req.body;
 
-        if ( !imgFile || !title || !subtitle) {
+        if (!imgFile || !title || !subtitle) {
             return res.status(400).json({
                 success: false,
                 message: "Please provide all required details",
             });
         }
 
-        const newRecord = ({
+        const newRecord = {
             title,
             subtitle,
             imgFile,
-        });
+        };
 
         const GalleryDetailData = await GalleryService.UploadGalleryDetails(newRecord);
 
