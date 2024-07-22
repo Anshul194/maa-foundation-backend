@@ -1,4 +1,3 @@
-// routes/BlogRouter.js
 const express = require('express');
 const BlogRouter = express.Router();
 const { CreateBlog, AddBlogDetails, getAllBlogs, deleteBlog } = require('../Controller/BlogController');
@@ -77,6 +76,17 @@ BlogRouter.post("/addBlogDetails", AddBlogDetails);
  *   get:
  *     summary: Retrieve all blogs
  *     tags: [Blogs]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Number of blogs per page
  *     responses:
  *       200:
  *         description: A list of blogs
