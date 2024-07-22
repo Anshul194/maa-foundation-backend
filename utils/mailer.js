@@ -69,6 +69,22 @@ const notifyAdmin = async (adminEmail, volunteerName,volunteerEmail) => {
     
     await sendMail(adminEmail, subject, text);
 };
+const notifyAdminAboutFeedback = async (adminEmail, senderEmail) => {
+    const subject = 'New Volunteer Added';
+    const text = `
+    Dear Admin,
+    
+    I am writing to inform you that we have received a feedback on your service. The details are as follows: 
+
+    - Contact Email: ${senderEmail}
+    - Time: ${new Date().toLocaleDateString()}
+    
+    Best regards,
+    Maa Foundation
+    `;
+    
+    await sendMail(adminEmail, subject, text);
+};
 
 const successFeedbackEMail = async (email) => {
     const subject = 'Thank You for Your Feedback!';
@@ -132,5 +148,6 @@ module.exports = {
     notifyAdmin,
     successFeedbackEMail,
     sendNewEventNotification,
-    sendSubscriptionConfirmation
+    sendSubscriptionConfirmation, 
+    notifyAdminAboutFeedback
 };
