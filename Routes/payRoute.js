@@ -4,6 +4,6 @@ const {capture,paymentVerification,getKey}=require('../Controller/PaymentControl
 
 payRouter.post('/capturePayment',capture);
 payRouter.post('/verification',paymentVerification);   
-payRouter.get('/getkey',getKey);
+payRouter.get('/getKey',getKey);
 
 module.exports=payRouter;
