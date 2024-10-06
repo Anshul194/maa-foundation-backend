@@ -3,6 +3,7 @@ const EventRouter = express.Router();
 
 const { UploadEventDetails, getAllEvents, deleteEvent } = require('../controller/EventController');
 
+
 /**
  * @swagger
  * /events:
@@ -34,7 +35,7 @@ const { UploadEventDetails, getAllEvents, deleteEvent } = require('../controller
  *       400:
  *         description: Bad request
  */
-EventRouter.post('/', UploadEventDetails);
+EventRouter.post('/events', UploadEventDetails);
 
 /**
  * @swagger
@@ -53,7 +54,7 @@ EventRouter.post('/', UploadEventDetails);
  *               items:
  *                 $ref: '#/components/schemas/Event'
  */
-EventRouter.get('/', getAllEvents);
+EventRouter.get('/events', getAllEvents);
 
 /**
  * @swagger
@@ -68,6 +69,7 @@ EventRouter.get('/', getAllEvents);
  *       400:
  *         description: Bad request
  */
+
 EventRouter.delete('/:id', deleteEvent);
 
 module.exports = EventRouter;

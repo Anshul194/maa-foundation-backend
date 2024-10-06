@@ -1,7 +1,9 @@
 // routes/BlogRouter.js
 const express = require('express');
 const BlogRouter = express.Router();
+
 const { CreateBlog, AddBlogDetails, getAllBlogs } = require('../controller/BlogController');
+
 
 /**
  * @swagger

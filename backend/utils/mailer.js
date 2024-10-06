@@ -4,10 +4,10 @@ const sendMail = async (to, subject, text) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: "mailer1499@gmail.com",
-          pass: "olxc gzke ytcf yhqu",
+            user: "mailer1499@gmail.com",
+            pass: "olxc gzke ytcf yhqu",
         },
-      });
+    });
 
     let mailOptions = {
         from: 'mailer1499@gmail.com',
@@ -66,7 +66,23 @@ const notifyAdmin = async (adminEmail, volunteerName,volunteerEmail) => {
     Best regards,
     Maa Foundation
     `;
+
+    await sendMail(adminEmail, subject, text);
+};
+const notifyAdminAboutFeedback = async (adminEmail, senderEmail) => {
+    const subject = 'New Volunteer Added';
+    const text = `
+    Dear Admin,
     
+    I am writing to inform you that we have received a feedback on your service. The details are as follows: 
+
+    - Contact Email: ${senderEmail}
+    - Time: ${new Date().toLocaleDateString()}
+    
+    Best regards,
+    Maa Foundation
+    `;
+
     await sendMail(adminEmail, subject, text);
 };
 
@@ -102,9 +118,9 @@ const sendSubscriptionConfirmation = async (email) => {
       Best regards,
       Maa Foundation
     `;
-  
+
     await sendMail(email, subject, text);
-  };
+};
 
 
 const sendNewEventNotification = async (eventName, eventDate, subscribers) => {
@@ -132,5 +148,6 @@ module.exports = {
     notifyAdmin,
     successFeedbackEMail,
     sendNewEventNotification,
-    sendSubscriptionConfirmation
+    sendSubscriptionConfirmation,
+    notifyAdminAboutFeedback
 };
