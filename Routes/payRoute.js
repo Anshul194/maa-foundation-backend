@@ -1,6 +1,6 @@
 const express=require("express");
 const payRouter=express.Router();
-const {capture,paymentVerification,getKey}=require('../Controller/PaymentController');
+const {capture,paymentVerification,getKey}=require('../controller/PaymentController');
 
 payRouter.post('/capturePayment',capture);
 payRouter.post('/verification',paymentVerification);   
