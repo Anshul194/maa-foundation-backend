@@ -28,11 +28,11 @@ const allowedOrigins = [
     'http://maa-foundation.vercel.app',
     'http://localhost:5001',
     'https://maa-foundation-backend-6.onrender.com',
+    'https://maa-foundation-frontend.vercel.app',
 ];
 
 app.use(cors({
     origin: (origin, callback) => {
-        // Debug CORS issue
         console.log(`Origin: ${origin}`);
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
@@ -41,7 +41,9 @@ app.use(cors({
             callback(new Error('Not allowed by CORS'));
         }
     },
-    credentials: true
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
 }));
 
 cloudinaryConfig();
