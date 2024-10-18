@@ -27,8 +27,9 @@ const allowedOrigins = [
     'https://maa-foundation.vercel.app',
     'http://maa-foundation.vercel.app',
     'http://localhost:5001',
-    'https://maa-foundation-backend-6.onrender.com',
+   "https://maa-foundation-backend-wref.onrender.com",
     'https://maa-foundation-frontend.vercel.app',
+    'http://maa-foundation-frontend.vercel.app',
 ];
 
 app.use(cors({
