@@ -21,20 +21,17 @@ app.use(fileUpload({
     tempFileDir: '/tmp/'
 }));
 
-const allowedOrigins = [
-    'http://localhost:3000',
-    'http://localhost:3003',
-    'https://maa-foundation.vercel.app',
-    'http://maa-foundation.vercel.app',
-    'http://localhost:5001',
-   "https://maa-foundation-backend-wref.onrender.com",
-    'https://maa-foundation-frontend.vercel.app',
-    'http://maa-foundation-frontend.vercel.app',
-];
-
 app.use(cors({
     origin: (origin, callback) => {
-        console.log(`Origin: ${origin}`);
+        const allowedOrigins = [
+            'http://localhost:3000',
+            'http://localhost:3003',
+            'https://maa-foundation.vercel.app',
+            'http://maa-foundation.vercel.app',
+            'http://localhost:5001',
+            'https://maa-foundation-backend-6.onrender.com',
+            'https://maa-foundation-frontend.vercel.app'
+        ];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
@@ -42,10 +39,13 @@ app.use(cors({
             callback(new Error('Not allowed by CORS'));
         }
     },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow OPTIONS method for preflight
+    allowedHeaders: ['Content-Type', 'Authorization'], // Include headers your requests may include
+    credentials: true // Enable credentials
 }));
+
+// Handle preflight requests for all routes
+app.options('*', cors());
 
 cloudinaryConfig();
 connectDb().then(() => {
